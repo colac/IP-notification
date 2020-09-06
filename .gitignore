@@ -1,0 +1,5 @@
+#All files containing "credentials" and "token" in the name will be ignored
+*credentials*
+*token*
+*email*
+*Notify*
