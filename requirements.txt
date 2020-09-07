@@ -1,0 +1,4 @@
+#Packages needed to run IP-notify project
+#Usage:
+# pip install -r requirements.txt 
+keyring
