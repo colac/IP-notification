@@ -1,6 +1,33 @@
-#This script creates the keyring user+password and the JSON file with the emails used
+#This script creates:
+# The keyring user+password
+# The JSON file with the emails used, emailsNotifications.json
+# The JSON file with the current external IP, IP-current.json
 #Install library: pip install keyring
-import keyring, json, getpass, os, sys
+import keyring, json, getpass, os, sys, smtplib, requests, datetime, socket
+
+def getExternalIP():
+    # Get the IP from the API endpoint.
+    response = requests.get("https://api.myip.com")
+    datas = response.json()
+    external_IP = datas["ip"]
+    hostname = socket.gethostname()
+    ip_private = socket.gethostbyname(hostname)
+
+    date = datetime.datetime.now()
+    dateFormatted = date.strftime("%d-%m-%Y %X")
+
+    #Create json object to be used in IP-log.json
+    jsonExternalIP = {}
+    jsonExternalIP = {
+        'external_IP' : external_IP,
+        'date' : dateFormatted
+        }
+    #Write IP in IP-current.json
+    with open('%s/IP-current.json' % currentDirectory,'w') as jsonFileIPs:
+        json.dump(jsonExternalIP, jsonFileIPs, indent=4)
+    return (external_IP, hostname, ip_private)
+
+getExternalIP()
 
 argList = ["-d", "-debug", "d", "debug"]
 
