@@ -4,8 +4,11 @@
 # The JSON file with the current external IP, IP-current.json
 #Install library: pip install keyring
 import keyring, json, getpass, os, sys, smtplib, requests, datetime, socket
-
+from keyring import get_keyring
+get_keyring()
+currentDirectory = os.getcwd()
 def getExternalIP():
+    currentDirectory = os.getcwd()
     # Get the IP from the API endpoint.
     response = requests.get("https://api.myip.com")
     datas = response.json()
@@ -63,6 +66,5 @@ else:
     sys.exit()
 
 #Write the object to file.
-currentDirectory = os.getcwd()
 with open('%s/emailsNotifications.json' % currentDirectory,'w') as jsonFile:
     json.dump(json_obj, jsonFile)
