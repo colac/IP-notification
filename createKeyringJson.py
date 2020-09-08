@@ -37,14 +37,25 @@ argList = ["-d", "-debug", "d", "debug"]
 #Used for debuggin the creation of emailsNotifications.json
 #If no argument is given, the script executes as normal
 if len(sys.argv) == 1:
+    #Email that's going to receive the notifications
     emailToReceive = input("Type the email to receive notifications: ")
-#Ask user email and password
+    #Email that's going to send the notifications
     emailToSend = input("Type the email to be used to send notifications: ")
-    password = getpass.getpass(prompt="Password: ", stream=None)
-#Create credentials on keyring
-    keyring.set_password("IP_notification", emailToSend, password)
-    #print(keyring.get_password("IP_notification", email))
-#Create json object to be used in emailsNotifications.json
+    #Get password for email that's going to send the notifications
+    password = getpass.getpass(prompt="Password:", stream=None)
+    if sys.platform == "win32":
+        #Create credentials on keyring
+        keyring.set_password("IP_notification", emailToSend, password)
+        #print(keyring.get_password("IP_notification", email))
+    else:
+        jsonCredentialLinux = {}
+        jsonCredentialLinux = {
+        'emailToSend' : emailToSend,
+        'password' : password
+        }
+        with open('%s/secrets.py' % currentDirectory,'w') as jsonFileSecrets:
+            json.dump(jsonCredentialLinux, jsonFileSecrets, indent=4)
+    #Create json object to be used in emailsNotifications.json
     json_obj = {}
     json_obj['emails'] = []
     json_obj['emails'].append({
