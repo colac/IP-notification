@@ -1,6 +1,10 @@
 import os, time, socket
 import sendMail
 
+#get script directory to open .json files on sendMail.py
+currentDirectory = os.path.dirname(os.path.realpath(__file__))
+
+#Maximum temperature to set the trigger
 maxTemp = 30
 
 def measure_temp():
@@ -13,4 +17,4 @@ if ( measure_temp() >= maxTemp ):
         #print ("Temp higher than: %sºC\nCurrent Temp: %sºC" %(maxTemp, temperature))
         subject = "[Notification] - High Temps on RaspberryPie"
         body = "Temperature: %sºC\nHostname: %s" %(temperature, hostname)
-        sendMail.sendMail(subject, body)
+        sendMail.sendMail(subject, body, currentDirectory)

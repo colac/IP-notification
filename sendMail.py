@@ -2,18 +2,18 @@
 #https://www.devdungeon.com/content/read-and-send-email-python
 import smtplib, json, os, keyring, requests, socket, datetime
 from email.message import EmailMessage
-currentDirectory = os.getcwd()
+#currentDirectory = os.getcwd()
 
-def sendMail(subject, body):
+def sendMail(subject, body, currentDirectory):
     #Read emails in emailsNotifications.json
-    with open('%s/emailsNotifications.json' % currentDirectory) as jsonFileEmails:
+    with open(currentDirectory + '/' + 'emailsNotifications.json') as jsonFileEmails:
         emails = json.load(jsonFileEmails)
     #Since the created var emails is NOT a dictonary, it's necessary to place the position [0]
     emailSendNotification = emails["emails"][0]["sendNotification"]
     emailReceiveNotification = emails["emails"][0]["receiveNotification"]
     #Retreive password, in keyring, for the email used to send notifications
     #password = keyring.get_password("IP_notification", emailSendNotification)
-    with open('%s/secrets.json' % currentDirectory) as jsonSecrets:
+    with open(currentDirectory + '/' + 'secrets.json') as jsonSecrets:
         secrets = json.load(jsonSecrets)
     password = secrets["password"]
     #Connect with smtp from google

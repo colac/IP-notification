@@ -3,7 +3,9 @@
 import smtplib, json, os, keyring, requests, socket, datetime
 from email.message import EmailMessage
 import sendMail
-currentDirectory = os.getcwd()
+
+#get script directory to open .json files on sendMail.py
+currentDirectory = os.path.dirname(os.path.realpath(__file__))
 
 def getExternalIP():
     #Read IP in IP-log.json
@@ -34,7 +36,7 @@ def getExternalIP():
     if oldIP != external_IP:
         subject = "[Notification] - External IP"
         body = "New External IP: %s \nHostname: %s \nHost IP: %s \nOld External IP: %s" %(external_IP, hostname, ip_private, oldIP)
-        sendMail.sendMail(subject, body)
+        sendMail.sendMail(subject, body, currentDirectory)
         return external_IP, hostname, ip_private, dateFormatted, oldIP
 
 external_IP, hostname, ip_private, dateFormatted, oldIP = getExternalIP()
