@@ -53,7 +53,7 @@ if len(sys.argv) == 1:
         'emailToSend' : emailToSend,
         'password' : password
         }
-        with open('%s/secrets.py' % currentDirectory,'w') as jsonFileSecrets:
+        with open('%s/secrets.json' % currentDirectory,'w') as jsonFileSecrets:
             json.dump(jsonCredentialLinux, jsonFileSecrets, indent=4)
     #Create json object to be used in emailsNotifications.json
     json_obj = {}
